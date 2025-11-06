@@ -23,6 +23,7 @@ class SampleAPI(APIView):
         for value in all_data:
 
             data_dict = {
+                "id" : value.id,
                 "name" : value.name,
                 "age" : value.age
             }
@@ -30,3 +31,19 @@ class SampleAPI(APIView):
             data_list.append(data_dict)
 
         return Response(data_list)
+
+    def put(self, request, data_id):
+
+        data = Sample.objects.filter(id = data_id)
+
+        data.update(name = request.data[ 'name' ], age = request.data[ 'age' ])
+
+        return Response("Data Updated")
+    
+    def delete(self, request, data_id):
+
+        data = Sample.objects.filter(id = data_id)
+
+        data.delete()
+
+        return Response("Sucessfully Deleted!!")
